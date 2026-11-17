@@ -26,7 +26,9 @@ download.file(
   method = "curl"
 )
 
-folder_temp <- tempdir()
+# unzip into an empty folder so other session files cannot be copied
+folder_temp <- tempfile("highcharts-zip-")
+dir.create(folder_temp)
 
 unzip(file_temp, exdir = folder_temp)
 
@@ -36,7 +38,10 @@ files <- dir(folder_temp, recursive = TRUE, full.names = TRUE) |>
 
 basename(files)
 
-main <- str_subset(files, "code/highcharts")
+# the widget loads only the UMD core files; the 13.x autoloader is a second
+# standalone core build that fails when `Highcharts` already exists
+main <- str_subset(files, "code/highcharts") |>
+  str_subset("highcharts-autoload", negate = TRUE)
 main
   
 file.copy(
@@ -87,13 +92,22 @@ tibble(m = modules_yalm) |>
   filter(n > 1)
 
 # plugins -----------------------------------------------------------------
+# Each URL names a fixed commit, so a rerun downloads the vendored file
+# instead of whatever the plugin's default branch holds that day. Update a
+# commit only after reviewing the plugin's changes.
+# - motion.js: larsac07/Motion-Highcharts-Plugin master at 036338d0
+#   (2019-01-09, v1.0.9; the repository has no tag for it)
+# - draggable-legend.js: highcharts/draggable-legend tag v1.3.9 (f59bd38d)
+# - grouped-categories.js: blacklabel/grouped_categories tag v1.3.4 (568174d5)
+# - highcharts-regression.js: streamlinesocial/highcharts-regression tag v2.2.0
+#   (568326a6)
 files <- c(
   # "http://blacklabel.github.io/multicolor_series/js/multicolor_series.js",
-  "https://raw.githubusercontent.com/larsac07/Motion-Highcharts-Plugin/master/motion.js",
-  "https://raw.githubusercontent.com/highcharts/draggable-legend/master/draggable-legend.js",
+  "https://raw.githubusercontent.com/larsac07/Motion-Highcharts-Plugin/036338d0a948a832faf71f7163d0f764f19d5aaf/motion.js",
+  "https://raw.githubusercontent.com/highcharts/draggable-legend/f59bd38d2781bd5723896bbd8dc73e9bd376391b/draggable-legend.js",
   # "https://raw.githubusercontent.com/rudovjan/highcharts-tooltip-delay/master/tooltip-delay.js",
-  "https://raw.githubusercontent.com/blacklabel/grouped_categories/master/grouped-categories.js",
-  "https://raw.githubusercontent.com/streamlinesocial/highcharts-regression/master/highcharts-regression.js"
+  "https://raw.githubusercontent.com/blacklabel/grouped_categories/568174d582500b9e32be3e90ce0bde550b9f3603/grouped-categories.js",
+  "https://raw.githubusercontent.com/streamlinesocial/highcharts-regression/568326a6e73ca9346deef1a6d194376ef41ea4bd/highcharts-regression.js"
   # "https://raw.githubusercontent.com/highcharts/pattern-fill/master/pattern-fill-v2.js",
   # "https://raw.githubusercontent.com/blacklabel/annotations/master/js/annotations.js",
   # "https://raw.githubusercontent.com/highcharts/export-csv/master/export-csv.js",
