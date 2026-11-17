@@ -21,6 +21,11 @@
   The R API (`R/highcharts-api.R`) is unchanged because 12.6.1 and 12.6.2 change
   no options.
 
+* The `highchart` widget now creates the Google Fonts `<link>` element with
+  DOM methods and URL-encodes each word of the font name. Before, it pasted
+  font names from themes and `fontFamily` options into HTML, so a font name
+  that contained a quote could add markup to the page.
+
 # highcharter 0.12.6.1
 
 ## Changes
