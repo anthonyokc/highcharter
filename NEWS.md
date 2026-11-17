@@ -26,6 +26,17 @@
   font names from themes and `fontFamily` options into HTML, so a font name
   that contained a quote could add markup to the page.
 
+## Follow-up
+
+* The `highcharter.global` option still sends `Date`, `useUTC`,
+  `timezoneOffset`, `getTimezoneOffset`, `VMLRadialGradientURL`, and
+  `canvasToolsURL` in the Highcharts `global` group (`R/zzz.R`). Highcharts 12
+  reads only `global.buttonTheme` and ignores these keys, because the time
+  options moved to `time` in Highcharts 6.0.5. Charts still use UTC because
+  Highcharts 12 sets `time.timezone` to `"UTC"` by default. A migration to
+  `time` needs a decision: the widget applies these options after the theme,
+  so a `time` entry would replace the `time` settings of a theme.
+
 # highcharter 0.12.6.1
 
 ## Changes
