@@ -26,6 +26,13 @@
   font names from themes and `fontFamily` options into HTML, so a font name
   that contained a quote could add markup to the page.
 
+## Bugs
+
+* `hc_motion()` works again. The bundled motion plugin calls `Highcharts.each`,
+  which Highcharts 12 does not define, so every chart with motion enabled threw
+  a `TypeError` and showed no play controls. A small compatibility file
+  (`custom/motion-compat.js`) now defines the helper before the plugin loads.
+
 ## Follow-up
 
 * The `highcharter.global` option still sends `Date`, `useUTC`,

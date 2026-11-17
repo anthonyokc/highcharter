@@ -84,6 +84,7 @@ dependencies:
 #    - modules/heikinashi.js
 #    - modules/hollowcandlestick.js
 #    - plugins/grouped-categories.js
+    - custom/motion-compat.js
     - plugins/motion.js
 #    - plugins/multicolor_series.js
 #    - plugins/highcharts-regression.js
