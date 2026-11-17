@@ -1,5 +1,5 @@
 !/**
- * Highcharts JS v12.6.0 (2026-04-13)
+ * Highcharts JS v12.6.2 (2026-09-21)
  * Organization chart series type
  * @module highcharts/modules/organization
  * @requires highcharts

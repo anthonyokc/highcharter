@@ -28,12 +28,20 @@ HTMLWidgets.widget({
       x.fonts = ((typeof(x.fonts) == "string") ? [x.fonts] : x.fonts);
     
       x.fonts.forEach(function(s){
-        /* http://stackoverflow.com/questions/4724606 */
-        var urlfont = 'https://fonts.googleapis.com/css?family=' + s;
-        if (!$("link[href='" + urlfont + "']").length) {
-          $('<link href="' + urlfont + '" rel="stylesheet" type="text/css">').appendTo("head");
+        /* R joins the words of a font name with "+" (`.hc_get_fonts()`).
+           Encode each word so a font name cannot add markup, attributes or
+           query parameters, and keep "+" as the word separator. */
+        var family = String(s).split("+").map(encodeURIComponent).join("+");
+        var urlfont = 'https://fonts.googleapis.com/css?family=' + family;
+        var links = document.head.getElementsByTagName("link");
+        for (var i = 0; i < links.length; i++) {
+          if (links[i].getAttribute("href") === urlfont) return;
         }
-        
+        var link = document.createElement("link");
+        link.setAttribute("href", urlfont);
+        link.setAttribute("rel", "stylesheet");
+        link.setAttribute("type", "text/css");
+        document.head.appendChild(link);
       });
       
     }
