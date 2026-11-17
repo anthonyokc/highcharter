@@ -1,8 +1,31 @@
+# highcharter 0.12.6.1.9000
+
+## Security
+
+* Highcharter now uses HighchartsJS 12.6.2. Highcharts 12.6.1 and 12.6.2 are
+  security-only releases. They fix these advisories, which affect the bundled
+  12.6.0:
+  * GHSA-5793-x2q3-c3q7 (CVE-2026-118251): a `javascript:` URL in
+    `credits.href` runs script on click.
+  * GHSA-rmqc-xvr3-v46c (CVE-2026-118250): dotted `series.keys` paths write to
+    `Object.prototype`.
+  * GHSA-35rr-xwfh-x789 (CVE-2026-118246): `breadcrumbs.style` keys become SVG
+    event-handler attributes.
+  * GHSA-65hg-cf3f-5m39 (CVE-2026-118244): HTML text parsing falls back to
+    unfiltered `innerHTML` during printing.
+  * GHSA-mw4f-gj5x-6xr4 (CVE-2026-116796): a `javascript:` URL in an
+    `xlink:href` attribute survives text filtering and reaches exported charts.
+    This fix first ships in 12.6.2.
+
+  The vendored files are byte-identical to the `highcharts@12.6.2` npm package.
+  The R API (`R/highcharts-api.R`) is unchanged because 12.6.1 and 12.6.2 change
+  no options.
+
 # highcharter 0.12.6.1
 
 ## Changes
 
-* Highcharter now uses HighchartsJS 10.6.0.
+* Highcharter now uses HighchartsJS 12.6.0.
 
 ## Breaking changes
 
